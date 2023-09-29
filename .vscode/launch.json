@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flutter-All",
+      "preLaunchTask": "Flutter-Launch-All",
+      "type": "dart"
+    },
+    {
+      "name": "Flutter-iOS",
+      "preLaunchTask": "Flutter-Launch-iOS",
+      "type": "dart"
+    },
+    {
+      "name": "Flutter-Android",
+      "preLaunchTask": "Flutter-Launch-Android",
+      "type": "dart"
+    },
+  ]
+}
