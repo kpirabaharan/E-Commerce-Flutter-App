@@ -1,4 +1,4 @@
-import 'package:e_commerce/models/Store.dart';
+import 'package:e_commerce/models/store.dart';
 
 class Category {
   final String id;

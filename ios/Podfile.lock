@@ -1,5 +1,8 @@
 PODS:
   - Flutter (1.0.0)
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - Stripe (23.12.0):
     - StripeApplePay (= 23.12.0)
     - StripeCore (= 23.12.0)
@@ -39,6 +42,7 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
 
 SPEC REPOS:
@@ -55,11 +59,14 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
   stripe_ios:
     :path: ".symlinks/plugins/stripe_ios/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   Stripe: 15fad81ffb8d553d77ff504a6d50d47b9028bed0
   stripe_ios: 872ce75ce051b4070d061a185c8b7b67323c9f30
   StripeApplePay: 871274acfa7a96650ea8a697c288c54b8288fb6e

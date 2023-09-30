@@ -1,7 +1,21 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'main_drawer.dart';
 
 void main() => runApp(const MyApp());
+
+final theme = ThemeData(
+  useMaterial3: true,
+  colorScheme: ColorScheme.fromSeed(
+    brightness: Brightness.dark,
+    seedColor: const Color.fromARGB(255, 49, 9, 77),
+  ),
+  textTheme: GoogleFonts.latoTextTheme(),
+);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -9,25 +23,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: theme,
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blueGrey)
-              .copyWith(secondary: Colors.amber),
-          useMaterial3: true),
+      title: 'E-Commerce MultiStore Mobile App',
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
+          drawer: const MainDrawer(),
           appBar: AppBar(
             title: const Text('E-Commerce'),
             actions: [
-              IconButton(
-                onPressed: () => {},
-                icon: const Icon(Iconsax.sun_15),
-              ),
-              IconButton(
-                onPressed: () => {},
-                icon: const Icon(Icons.shopping_cart_sharp),
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: IconButton(
+                  onPressed: () => {},
+                  icon: Icon(Platform.isIOS ? CupertinoIcons.cart : Icons.shopping_cart_outlined),
+                ),
               )
             ],
             bottom: const TabBar(
