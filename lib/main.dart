@@ -1,12 +1,20 @@
 import 'dart:io' show Platform;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/cupertino.dart';
 
-import 'main_drawer.dart';
+import 'package:e_commerce/actions/get_stores.dart';
 
-void main() => runApp(const MyApp());
+import 'package:e_commerce/widgets/main_drawer.dart';
+
+
+Future main() async {
+  await dotenv.load();
+  runApp(const ProviderScope(child: MyApp()));
+}
 
 final theme = ThemeData(
   useMaterial3: true,
@@ -17,11 +25,13 @@ final theme = ThemeData(
   textTheme: GoogleFonts.latoTextTheme(),
 );
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stores = ref.watch(getStores);
+
     return MaterialApp(
       theme: theme,
       debugShowCheckedModeBanner: false,

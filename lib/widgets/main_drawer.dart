@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MainDrawer extends StatelessWidget {
+import 'package:e_commerce/models/store.dart';
+import 'package:e_commerce/actions/get_stores.dart';
+
+class MainDrawer extends ConsumerWidget {
   const MainDrawer({super.key});
 
   Widget buildListTile(String title, VoidCallback tapHandler, {dynamic icon = Icons.shopping_bag}) {
@@ -23,7 +26,9 @@ class MainDrawer extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stores = ref.watch(getStores);
+
     return Drawer(
       child: Column(
         children: [
@@ -55,8 +60,20 @@ class MainDrawer extends StatelessWidget {
               ],
             ),
           ),
-          buildListTile('Clothes', () => {}, icon: Ionicons.shirt),
-          buildListTile('Shoes', () => {}),
+          stores.when(
+            data: (stores) {
+              List<Store> storesList = stores.map((e) => e).toList();
+              return Column(
+                children: [...storesList.map((store) => buildListTile(store.name, () {})).toList()],
+              );
+            },
+            error: (err, s) => Text(err.toString()),
+            loading: () => const Expanded(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
         ],
       ),
     );
