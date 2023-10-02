@@ -7,7 +7,7 @@ import 'package:e_commerce/models/store.dart';
 final dio = Dio();
 
 class StoresProvider {
-  List<Store> stores = [];
+  late Store activeStore;
 
   Future<List<Store>> getStores() async {
     try {
@@ -21,6 +21,10 @@ class StoresProvider {
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  void setActiveStore(Store store) {
+    activeStore = store;
   }
 }
 

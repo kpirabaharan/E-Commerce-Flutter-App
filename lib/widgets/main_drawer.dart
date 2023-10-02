@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:e_commerce/models/store.dart';
+import 'package:e_commerce/providers/stores_provider.dart';
 import 'package:e_commerce/actions/get_stores.dart';
+
+import 'package:e_commerce/screens/store_overview.dart';
 
 class MainDrawer extends ConsumerWidget {
   const MainDrawer({super.key});
@@ -23,6 +26,11 @@ class MainDrawer extends ConsumerWidget {
       ),
       onTap: tapHandler,
     );
+  }
+
+  void _selectStore(BuildContext context, Store store, WidgetRef ref) {
+    ref.read(storesProvider).setActiveStore(store);
+    Navigator.of(context).pushNamed(StoreOverviewPage.routeName);
   }
 
   @override
@@ -64,7 +72,16 @@ class MainDrawer extends ConsumerWidget {
             data: (stores) {
               List<Store> storesList = stores.map((e) => e).toList();
               return Column(
-                children: [...storesList.map((store) => buildListTile(store.name, () {})).toList()],
+                children: [
+                  ...storesList
+                      .map(
+                        (store) => buildListTile(
+                          store.name,
+                          () => _selectStore(context, store, ref),
+                        ),
+                      )
+                      .toList()
+                ],
               );
             },
             error: (err, s) => Text(err.toString()),

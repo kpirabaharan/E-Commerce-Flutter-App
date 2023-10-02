@@ -1,7 +1,11 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:e_commerce/models/store.dart';
+import 'package:e_commerce/providers/stores_provider.dart';
 import 'package:e_commerce/actions/get_stores.dart';
 
 import 'package:e_commerce/screens/store_overview.dart';
@@ -11,7 +15,8 @@ import 'package:e_commerce/widgets/store_selector_item.dart';
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
-  void _selectStore(BuildContext context, Store store) {
+  void _selectStore(BuildContext context, Store store, WidgetRef ref) {
+    ref.read(storesProvider).setActiveStore(store);
     Navigator.of(context).pushNamed(StoreOverviewPage.routeName);
   }
 
@@ -37,13 +42,15 @@ class HomePage extends ConsumerWidget {
             ...stores
                 .map((store) => StoreSelectorItem(
                       store: store,
-                      onSelectStore: () => _selectStore(context, store),
+                      onSelectStore: () => _selectStore(context, store, ref),
                     ))
                 .toList()
           ],
         ),
         error: (error, stackTrace) => Text(error.toString()),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => Platform.isIOS
+          ? const CupertinoActivityIndicator()
+          : const Center(child: CircularProgressIndicator()),
       ),
     );
   }
