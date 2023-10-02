@@ -7,6 +7,8 @@ import 'package:e_commerce/models/store.dart';
 final dio = Dio();
 
 class StoresProvider {
+  List<Store> stores = [];
+
   Future<List<Store>> getStores() async {
     try {
       Response response = await dio.get('${dotenv.env['API_URL']}users/${dotenv.env['USER_ID']}');

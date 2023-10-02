@@ -1,15 +1,10 @@
-import 'dart:io' show Platform;
-
+import 'package:e_commerce/screens/store_overview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/cupertino.dart';
 
-import 'package:e_commerce/actions/get_stores.dart';
-
-import 'package:e_commerce/widgets/main_drawer.dart';
-
+import 'package:e_commerce/screens/home_page.dart';
 
 Future main() async {
   await dotenv.load();
@@ -25,46 +20,19 @@ final theme = ThemeData(
   textTheme: GoogleFonts.latoTextTheme(),
 );
 
-class MyApp extends ConsumerWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final stores = ref.watch(getStores);
-
+  Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
       debugShowCheckedModeBanner: false,
       title: 'E-Commerce MultiStore Mobile App',
-      home: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          drawer: const MainDrawer(),
-          appBar: AppBar(
-            title: const Text('E-Commerce'),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: IconButton(
-                  onPressed: () => {},
-                  icon: Icon(Platform.isIOS ? CupertinoIcons.cart : Icons.shopping_cart_outlined),
-                ),
-              )
-            ],
-            bottom: const TabBar(
-              isScrollable: false,
-              tabAlignment: TabAlignment.fill,
-              tabs: [
-                Tab(child: Text('Shirts')),
-                Tab(child: Text('Jeans')),
-              ],
-            ),
-          ),
-          body: const Center(
-            child: Text('E-Commerce Store App'),
-          ),
-        ),
-      ),
+      home: const HomePage(),
+      routes: {
+        StoreOverviewPage.routeName: (ctx) => const StoreOverviewPage(),
+      },
     );
   }
 }
