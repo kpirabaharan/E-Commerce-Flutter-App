@@ -1,10 +1,10 @@
-import 'package:e_commerce/providers/stores_provider.dart';
+import 'package:e_commerce/providers/active_store_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:e_commerce/models/category.dart';
 import 'package:e_commerce/providers/categories_provider.dart';
 
 final getCategories = FutureProvider<List<Category>>((ref) async {
-  final activeStore = ref.watch(storesProvider).activeStore;
-  return ref.watch(categoriesProvider).getCategories(activeStore.id);
+  final activeStore = ref.watch(activeStoreProvider);
+  return ref.watch(categoriesProvider.notifier).getCategories(activeStore!.id);
 });

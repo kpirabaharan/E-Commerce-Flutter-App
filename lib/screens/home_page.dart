@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:e_commerce/models/store.dart';
-import 'package:e_commerce/providers/stores_provider.dart';
 import 'package:e_commerce/actions/get_stores.dart';
+import 'package:e_commerce/providers/active_store_provider.dart';
 
 import 'package:e_commerce/screens/store_overview.dart';
 
@@ -16,7 +16,7 @@ class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   void _selectStore(BuildContext context, Store store, WidgetRef ref) {
-    ref.read(storesProvider).setActiveStore(store);
+    ref.read(activeStoreProvider.notifier).setActiveStore(store);
     Navigator.of(context).pushNamed(StoreOverviewPage.routeName);
   }
 
@@ -49,8 +49,8 @@ class HomePage extends ConsumerWidget {
         ),
         error: (error, stackTrace) => Text(error.toString()),
         loading: () => Platform.isIOS
-          ? const CupertinoActivityIndicator()
-          : const Center(child: CircularProgressIndicator()),
+            ? const Center(child: CupertinoActivityIndicator())
+            : const Center(child: CircularProgressIndicator()),
       ),
     );
   }

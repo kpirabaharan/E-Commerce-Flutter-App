@@ -6,15 +6,15 @@ import 'package:e_commerce/models/store.dart';
 
 final dio = Dio();
 
-class StoresProvider {
-  late Store activeStore;
+class StoresNotifier extends StateNotifier<List<Store>> {
+  StoresNotifier() : super([]);
 
-  Future<List<Store>> getStores() async {
+  Future<void> fetchStores() async {
     try {
       Response response = await dio.get('${dotenv.env['API_URL']}users/${dotenv.env['USER_ID']}');
       if (response.statusCode == 200) {
         final List data = response.data;
-        return data.map((e) => Store.fromJson(e)).toList();
+        state = data.map((e) => Store.fromJson(e)).toList();
       } else {
         throw Exception('Error: ${response.statusCode}');
       }
@@ -23,9 +23,13 @@ class StoresProvider {
     }
   }
 
-  void setActiveStore(Store store) {
-    activeStore = store;
+  Future<List<Store>> getStores() async {
+    if (state.isEmpty) {
+      await fetchStores();
+    }
+    return state;
   }
 }
 
-final storesProvider = Provider<StoresProvider>((ref) => StoresProvider());
+final storesProvider =
+    StateNotifierProvider<StoresNotifier, List<Store>>((ref) => StoresNotifier());
