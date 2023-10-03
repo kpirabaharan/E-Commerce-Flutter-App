@@ -12,12 +12,12 @@ import 'package:e_commerce/screens/store_overview.dart';
 
 import 'package:e_commerce/widgets/store_selector_item.dart';
 
-class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
+class HomeScreen extends ConsumerWidget {
+  const HomeScreen({super.key});
 
   void _selectStore(BuildContext context, Store store, WidgetRef ref) {
     ref.read(activeStoreProvider.notifier).setActiveStore(store);
-    Navigator.of(context).pushNamed(StoreOverviewPage.routeName);
+    Navigator.of(context).pushNamed(StoreOverviewScreen.routeName);
   }
 
   @override

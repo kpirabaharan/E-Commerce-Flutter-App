@@ -30,7 +30,7 @@ class MainDrawer extends ConsumerWidget {
 
   void _selectStore(BuildContext context, Store store, WidgetRef ref) {
     ref.read(activeStoreProvider.notifier).setActiveStore(store);
-    Navigator.of(context).pushReplacementNamed(StoreOverviewPage.routeName);
+    Navigator.of(context).pushReplacementNamed(StoreOverviewScreen.routeName);
   }
 
   @override

@@ -10,4 +10,13 @@ class Billboard {
     required this.label,
     required this.imageUrl,
   });
+
+  factory Billboard.fromJson(Map<String, dynamic> json) {
+    return Billboard(
+      id: json['id'],
+      storeId: json['storeId'],
+      label: json['label'],
+      imageUrl: json['imageUrl'],
+    );
+  }
 }

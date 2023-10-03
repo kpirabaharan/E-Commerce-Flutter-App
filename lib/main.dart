@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:e_commerce/screens/home_page.dart';
+import 'package:e_commerce/screens/home.dart';
 
 Future main() async {
   await dotenv.load();
@@ -29,9 +29,9 @@ class MyApp extends StatelessWidget {
       theme: theme,
       debugShowCheckedModeBanner: false,
       title: 'E-Commerce MultiStore Mobile App',
-      home: const HomePage(),
+      home: const HomeScreen(),
       routes: {
-        StoreOverviewPage.routeName: (ctx) => const StoreOverviewPage(),
+        StoreOverviewScreen.routeName: (ctx) => const StoreOverviewScreen(),
       },
     );
   }
