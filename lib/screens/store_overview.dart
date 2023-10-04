@@ -1,13 +1,16 @@
 import 'dart:io' show Platform;
 
-import 'package:e_commerce/screens/category.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:collection/collection.dart';
+import 'package:e_commerce/models/category.dart';
+import 'package:e_commerce/providers/category_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:collection/collection.dart';
 
 import 'package:e_commerce/actions/get_categories.dart';
 import 'package:e_commerce/providers/active_store_provider.dart';
+
+import 'package:e_commerce/screens/category.dart';
 
 import 'package:e_commerce/widgets/main_drawer.dart';
 
@@ -24,9 +27,14 @@ class StoreOverviewScreen extends ConsumerStatefulWidget {
 class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
   int _selectedPageIndex = 0;
 
-  void _selectPage(int index) {
+  void _selectPage(int index, Category? category) {
     setState(() {
       _selectedPageIndex = index;
+      if (category != null) {
+        ref.watch(categoryProvider.notifier).setActiveStore(category);
+      } else {
+        ref.watch(categoryProvider.notifier).clearActiveStore();
+      }
     });
   }
 
@@ -34,7 +42,7 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
   Widget build(BuildContext context) {
     final categories = ref.watch(getCategories);
 
-    // Widget activePage = CategoryScreen();
+    Widget activePage = CategoryScreen();
 
     var activePageTitle = 'Featured';
 
@@ -84,20 +92,39 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
                       child: Row(
                         children: [
                           Expanded(
-                              child: TextButton(
-                                  onPressed: () => _selectPage(0), child: const Text('Featured'))),
+                            child: TextButton(
+                              onPressed: () => _selectPage(0, null),
+                              child: Text(
+                                'Featured',
+                                style: _selectedPageIndex == 0
+                                    ? Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(color: Colors.white)
+                                    : null,
+                              ),
+                            ),
+                          ),
                           ...categoryList
                               .mapIndexed((index, element) => Expanded(
                                   child: TextButton(
-                                      onPressed: () => _selectPage(index + 1),
-                                      child: Text(element.name))))
+                                      onPressed: () => _selectPage(index + 1, element),
+                                      child: Text(
+                                        element.name,
+                                        style: _selectedPageIndex == index + 1
+                                            ? Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!
+                                                .copyWith(color: Colors.white)
+                                            : null,
+                                      ))))
                               .toList()
                         ],
                       ),
                     ),
                   )
                 : null,
-            body: null,
+            body: activePage,
           ),
         );
       },
