@@ -46,8 +46,6 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
 
     Widget activePage = const CategoryScreen();
 
-    var activePageTitle = 'Featured';
-
     // if (_selectedPageIndex == 1) {
     //   final favoriteMeals = ref.watch(favoriteMealsProvider);
     //   activePage = MealsScreen(
