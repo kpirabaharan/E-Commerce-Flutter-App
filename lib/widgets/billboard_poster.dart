@@ -18,14 +18,11 @@ class BillboardPoster extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       child: Stack(
         children: [
-          AspectRatio(
-            aspectRatio: 5 / 3,
-            child: FadeInImage(
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(billboard.imageUrl),
-              fit: BoxFit.cover,
-              width: double.infinity,
-            ),
+          FadeInImage(
+            placeholder: MemoryImage(kTransparentImage),
+            image: NetworkImage(billboard.imageUrl),
+            fit: BoxFit.cover,
+            width: double.infinity,
           ),
           Positioned(
             bottom: 0,
