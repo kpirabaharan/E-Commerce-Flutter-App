@@ -5,11 +5,11 @@ import 'package:e_commerce/models/category.dart';
 class CategoryNotifier extends StateNotifier<Category?> {
   CategoryNotifier() : super(null);
 
-  void setActiveStore(Category category) {
+  void setActiveCategory(Category category) {
     state = category;
   }
 
-  void clearActiveStore() {
+  void clearActiveCategory() {
     state = null;
   }
 }

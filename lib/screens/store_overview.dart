@@ -31,9 +31,11 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
     setState(() {
       _selectedPageIndex = index;
       if (category != null) {
-        ref.watch(categoryProvider.notifier).setActiveStore(category);
+        print('setting active category: ${category.name}');
+        ref.watch(categoryProvider.notifier).setActiveCategory(category);
       } else {
-        ref.watch(categoryProvider.notifier).clearActiveStore();
+        print('Clearing active category');
+        ref.watch(categoryProvider.notifier).clearActiveCategory();
       }
     });
   }
@@ -42,7 +44,7 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
   Widget build(BuildContext context) {
     final categories = ref.watch(getCategories);
 
-    Widget activePage = CategoryScreen();
+    Widget activePage = const CategoryScreen();
 
     var activePageTitle = 'Featured';
 
