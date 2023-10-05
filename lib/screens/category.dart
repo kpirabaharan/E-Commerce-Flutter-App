@@ -18,34 +18,44 @@ class CategoryScreen extends ConsumerWidget {
     final billboard = ref.watch(getBillboard);
     final products = ref.watch(getProducts);
 
-    // ! Look into CustomScrollView
-
     return billboard.when(
-      skipLoadingOnReload: true,
-      data: (billboard) => Column(
-        children: [
-          Flexible(flex: 2, child: BillboardPoster(billboard: billboard)),
-          Flexible(
-            flex: 5,
-            child: products.when(
-              data: (products) => GridView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 3 / 3,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                ),
-                children: products.map((product) => ProductItem(product: product)).toList(),
+      data: (billboard) => CustomScrollView(slivers: [
+        SliverAppBar(
+          pinned: true,
+          automaticallyImplyLeading: false,
+          expandedHeight: 250.0,
+          flexibleSpace: FlexibleSpaceBar(
+            centerTitle: true,
+            title: Text(billboard.label),
+            background: Image.network(billboard.imageUrl, fit: BoxFit.cover),
+          ),
+        ),
+        products.when(
+          data: (products) => SliverPadding(
+            padding: const EdgeInsets.all(10),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 3 / 3,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
               ),
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stackTrace) => Text('Error: $error'),
+              delegate: SliverChildBuilderDelegate(
+                (ctx, index) => ProductItem(product: products[index]),
+                childCount: products.length,
+              ),
             ),
           ),
-        ],
-      ),
+          error: (error, stackTrace) => SliverToBoxAdapter(
+            child: Center(child: Text('Error: $error')),
+          ),
+          loading: () => SliverToBoxAdapter(
+            child: Platform.isIOS
+                ? const Center(child: CupertinoActivityIndicator())
+                : const Center(child: CircularProgressIndicator()),
+          ),
+        )
+      ]),
       error: (error, stackTrace) => Text('Error: $error'),
       loading: () => Platform.isIOS
           ? const Center(child: CupertinoActivityIndicator())
