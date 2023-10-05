@@ -9,9 +9,21 @@ final dio = Dio();
 class ProductsNotifier extends StateNotifier<List<Product>> {
   ProductsNotifier() : super([]);
 
-  Future<void> fetchProducts(String storeId) async {
+  Future<void> fetchProducts(String storeId,
+      {String? categoryId, String? sizeId, String? colorId, bool? isFeatured}) async {
     try {
-      Response response = await dio.get('${dotenv.env['API_URL']}$storeId/products');
+      Map<String, dynamic> queryParameters = {
+        'categoryId': categoryId,
+        'sizeId': sizeId,
+        'colorId': colorId,
+        'isFeatured': isFeatured
+      };
+      print(queryParameters);
+
+      Response response = await dio.get('${dotenv.env['API_URL']}$storeId/products',
+          queryParameters: queryParameters);
+
+      print(response.realUri);
       if (response.statusCode == 200) {
         final List data = response.data;
         state = data.map((e) => Product.fromJson(e)).toList();
@@ -23,8 +35,10 @@ class ProductsNotifier extends StateNotifier<List<Product>> {
     }
   }
 
-  Future<List<Product>> getProducts(String storeId) async {
-    await fetchProducts(storeId);
+  Future<List<Product>> getProducts(String storeId,
+      {String? categoryId, String? sizeId, String? colorId, bool? isFeatured}) async {
+    await fetchProducts(storeId,
+        categoryId: categoryId, sizeId: sizeId, colorId: colorId, isFeatured: isFeatured);
     return state;
   }
 }

@@ -18,17 +18,19 @@ class CategoryScreen extends ConsumerWidget {
     final billboard = ref.watch(getBillboard);
     final products = ref.watch(getProducts);
 
+    // ! Look into CustomScrollView
+
     return billboard.when(
       skipLoadingOnReload: true,
       data: (billboard) => Column(
         children: [
-          Flexible(flex: 1, child: BillboardPoster(billboard: billboard)),
-          products.when(
-            data: (products) => Flexible(
-              flex: 2,
-              child: GridView(
+          Flexible(flex: 2, child: BillboardPoster(billboard: billboard)),
+          Flexible(
+            flex: 5,
+            child: products.when(
+              data: (products) => GridView(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 5,
+                  horizontal: 10,
                 ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -38,9 +40,9 @@ class CategoryScreen extends ConsumerWidget {
                 ),
                 children: products.map((product) => ProductItem(product: product)).toList(),
               ),
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, stackTrace) => Text('Error: $error'),
             ),
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stackTrace) => Text('Error: $error'),
           ),
         ],
       ),
