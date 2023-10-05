@@ -1,4 +1,5 @@
 import 'package:e_commerce/models/image.dart';
+import 'package:e_commerce/models/color.dart';
 
 class Product {
   final String id;
@@ -7,6 +8,7 @@ class Product {
   final String price;
   final bool isFeatured;
   final List<Image> images;
+  final CustomColor color;
 
   Product({
     required this.id,
@@ -15,6 +17,7 @@ class Product {
     required this.price,
     required this.isFeatured,
     required this.images,
+    required this.color,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -25,6 +28,7 @@ class Product {
       price: json['price'],
       isFeatured: json['isFeatured'],
       images: (json['images'] as List<dynamic>).map((image) => Image.fromJson(image)).toList(),
+      color: CustomColor.fromJson(json['color']),
     );
   }
 }

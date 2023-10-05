@@ -1,14 +1,13 @@
 import 'dart:io' show Platform;
 
-import 'package:e_commerce/actions/get_products.dart';
-import 'package:e_commerce/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:e_commerce/actions/get_products.dart';
 import 'package:e_commerce/actions/get_billboard.dart';
 
-import 'package:e_commerce/widgets/billboard_poster.dart';
+import 'package:e_commerce/widgets/product_item.dart';
 
 class CategoryScreen extends ConsumerWidget {
   const CategoryScreen({super.key});

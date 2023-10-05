@@ -18,12 +18,10 @@ class ProductsNotifier extends StateNotifier<List<Product>> {
         'colorId': colorId,
         'isFeatured': isFeatured
       };
-      print(queryParameters);
 
       Response response = await dio.get('${dotenv.env['API_URL']}$storeId/products',
           queryParameters: queryParameters);
 
-      print(response.realUri);
       if (response.statusCode == 200) {
         final List data = response.data;
         state = data.map((e) => Product.fromJson(e)).toList();
