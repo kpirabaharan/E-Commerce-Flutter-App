@@ -27,16 +27,23 @@ class CartScreen extends ConsumerWidget {
         ),
         title: const Text('Checkout'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              children: cartItems.map((cartItem) => CartTile(cartItem)).toList(),
+      body: cartItems.isEmpty
+          ? Center(
+              child: Text(
+                'Your Cart is Empty',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Colors.white),
+              ),
+            )
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    children: cartItems.map((cartItem) => CartTile(cartItem)).toList(),
+                  ),
+                ),
+                const CartTotal(),
+              ],
             ),
-          ),
-          CartTotal(),
-        ],
-      ),
     );
   }
 }
