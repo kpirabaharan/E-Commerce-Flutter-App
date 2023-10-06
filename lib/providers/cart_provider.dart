@@ -84,6 +84,12 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
         (previousValue, element) =>
             previousValue + (double.parse(element.price) * element.quantity));
   }
+
+  double getItemCount(String storeId) {
+    return state
+        .where((item) => item.storeId == storeId)
+        .fold<double>(0, (previousValue, element) => previousValue + element.quantity);
+  }
 }
 
 final cartProvider = StateNotifierProvider<CartNotifier, List<CartItem>>((ref) => CartNotifier());

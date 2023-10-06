@@ -1,3 +1,4 @@
+import 'package:e_commerce/widgets/cart_total.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,23 +34,7 @@ class CartScreen extends ConsumerWidget {
               children: cartItems.map((cartItem) => CartTile(cartItem)).toList(),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            height: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Total',
-                  style: TextStyle(fontSize: 20),
-                ),
-                Text(
-                  '\$${ref.watch(cartProvider.notifier).getTotal(ref.read(activeStoreProvider)!.id).toStringAsFixed(2)}',
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ],
-            ),
-          ),
+          CartTotal(),
         ],
       ),
     );
