@@ -1,18 +1,18 @@
-class Image {
+class CustomImage {
   final String id;
   final String productId;
   final String url;
   final String key;
 
-  Image({
+  CustomImage({
     required this.id,
     required this.productId,
     required this.url,
     required this.key,
   });
 
-  factory Image.fromJson(Map<String, dynamic> json) {
-    return Image(
+  factory CustomImage.fromJson(Map<String, dynamic> json) {
+    return CustomImage(
       id: json['id'],
       productId: json['productId'],
       url: json['url'],

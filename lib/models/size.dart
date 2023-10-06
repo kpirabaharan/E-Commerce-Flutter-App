@@ -8,4 +8,12 @@ class Size {
     required this.name,
     required this.value,
   });
+
+  factory Size.fromJson(Map<String, dynamic> json) {
+    return Size(
+      id: json['id'],
+      name: json['name'],
+      value: json['value'],
+    );
+  }
 }

@@ -16,6 +16,7 @@ class CategoryScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final billboard = ref.watch(getBillboard);
     final products = ref.watch(getProducts);
+    final bottomInset = MediaQuery.of(context).padding.bottom;
 
     return billboard.when(
       data: (billboard) => CustomScrollView(slivers: [
@@ -31,13 +32,13 @@ class CategoryScreen extends ConsumerWidget {
         ),
         products.when(
           data: (products) => SliverPadding(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.fromLTRB(5, 5, 5, bottomInset),
             sliver: SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 3 / 3,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
               ),
               delegate: SliverChildBuilderDelegate(
                 (ctx, index) => ProductItem(product: products[index]),
