@@ -1,3 +1,4 @@
+import 'package:e_commerce/providers/cart_provider.dart';
 import 'package:e_commerce/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,7 @@ class CartTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Dismissible(
       key: Key(cartItem.id),
+      onDismissed: (direction) => ref.read(cartProvider.notifier).removeBatch(cartItem.id),
       background: Container(
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(

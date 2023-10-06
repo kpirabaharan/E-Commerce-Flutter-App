@@ -46,7 +46,7 @@ class ProductDetailScreen extends ConsumerWidget {
           width: double.infinity,
           padding: const EdgeInsets.all(10),
           child: FilledButton(
-            onPressed: () => ref.read(cartProvider.notifier).addToCart(product),
+            onPressed: () => ref.read(cartProvider.notifier).addItem(product),
             child: const Text('Add to Cart'),
           ),
         ),

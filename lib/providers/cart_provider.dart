@@ -6,7 +6,7 @@ import 'package:e_commerce/models/product.dart';
 class CartNotifier extends StateNotifier<List<CartItem>> {
   CartNotifier() : super([]);
 
-  void addToCart(Product product) {
+  void addItem(Product product) {
     final existingCartItem = state.firstWhere(
       (element) => element.id == product.id,
       orElse: () => CartItem(
@@ -46,12 +46,43 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
     }
   }
 
-  void removeFromCart(String productId) {
-    state = state.where((id) => id != productId).toList();
+  void removeItem(String productId) {
+    final existingCartItem = state.firstWhere(
+      (item) => item.id == productId,
+    );
+
+    if (existingCartItem.quantity == 1) {
+      state = state.where((item) => item.id != productId).toList();
+    } else {
+      state = state.map((item) {
+        if (item.id == productId) {
+          return CartItem(
+              id: item.id,
+              storeId: item.storeId,
+              name: item.name,
+              price: item.price,
+              image: item.image,
+              quantity: item.quantity - 1);
+        } else {
+          return item;
+        }
+      }).toList();
+    }
+  }
+
+  void removeBatch(String productId) {
+    state = state.where((item) => item.id != productId).toList();
   }
 
   void clearCart() {
     state = [];
+  }
+
+  double getTotal(String storeId) {
+    return state.where((item) => item.storeId == storeId).fold<double>(
+        0,
+        (previousValue, element) =>
+            previousValue + (double.parse(element.price) * element.quantity));
   }
 }
 

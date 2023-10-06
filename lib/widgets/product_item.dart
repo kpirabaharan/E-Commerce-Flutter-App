@@ -60,7 +60,7 @@ class ProductItem extends ConsumerWidget {
                     icon: Icon(
                       Platform.isIOS ? CupertinoIcons.cart_badge_plus : Icons.add_shopping_cart,
                     ),
-                    onPressed: () => ref.read(cartProvider.notifier).addToCart(product),
+                    onPressed: () => ref.read(cartProvider.notifier).addItem(product),
                   ),
                 ),
               ]),

@@ -26,8 +26,31 @@ class CartScreen extends ConsumerWidget {
         ),
         title: const Text('Checkout'),
       ),
-      body: ListView(
-        children: cartItems.map((cartItem) => CartTile(cartItem)).toList(),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              children: cartItems.map((cartItem) => CartTile(cartItem)).toList(),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            height: 100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Total',
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  '\$${ref.watch(cartProvider.notifier).getTotal(ref.read(activeStoreProvider)!.id).toStringAsFixed(2)}',
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
