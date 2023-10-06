@@ -74,16 +74,14 @@ class MainDrawer extends ConsumerWidget {
             data: (stores) {
               List<Store> storesList = stores.map((e) => e).toList();
               return Column(
-                children: [
-                  ...storesList
-                      .map(
-                        (store) => buildListTile(
-                          store.name,
-                          () => _selectStore(context, store, ref),
-                        ),
-                      )
-                      .toList()
-                ],
+                children: storesList
+                    .map(
+                      (store) => buildListTile(
+                        store.name,
+                        () => _selectStore(context, store, ref),
+                      ),
+                    )
+                    .toList(),
               );
             },
             error: (err, s) => Text(err.toString()),

@@ -1,21 +1,24 @@
 import 'dart:io' show Platform;
 
-import 'package:e_commerce/utils/currency_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:e_commerce/models/product.dart';
+import 'package:e_commerce/providers/cart_provider.dart';
+import 'package:e_commerce/utils/currency_formatter.dart';
 
 import 'package:e_commerce/screens/product_detail.dart';
 
-class ProductItem extends StatelessWidget {
+class ProductItem extends ConsumerWidget {
   const ProductItem({super.key, required this.product});
 
   final Product product;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
+
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
@@ -52,11 +55,12 @@ class ProductItem extends StatelessWidget {
                   top: 0,
                   right: 0,
                   child: IconButton(
+                    focusColor: Colors.transparent,
+                    color: Colors.black38,
                     icon: Icon(
                       Platform.isIOS ? CupertinoIcons.cart_badge_plus : Icons.add_shopping_cart,
-                      color: Colors.black38,
                     ),
-                    onPressed: () {},
+                    onPressed: () => ref.read(cartProvider.notifier).addToCart(product),
                   ),
                 ),
               ]),

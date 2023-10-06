@@ -29,25 +29,24 @@ class _ProductGalleryState extends State<ProductGallery> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Container(
       color: Colors.grey[300],
-      height: 300,
+      height: height * 0.5,
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           PageView(
             onPageChanged: (page) => setPageNumber(page),
             controller: controller,
-            children: [
-              ...widget.images
-                  .mapIndexed((index, image) => index == 0
-                      ? Hero(
-                          tag: widget.productId,
-                          child: Image.network(image.url),
-                        )
-                      : Image.network(image.url))
-                  .toList(),
-            ],
+            children: widget.images
+                .mapIndexed((index, image) => index == 0
+                    ? Hero(
+                        tag: widget.productId,
+                        child: Image.network(image.url),
+                      )
+                    : Image.network(image.url))
+                .toList(),
           ),
           Positioned(
             bottom: 10,

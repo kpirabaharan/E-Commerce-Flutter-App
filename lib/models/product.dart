@@ -4,6 +4,7 @@ import 'package:e_commerce/models/size.dart';
 
 class Product {
   final String id;
+  final String storeId;
   final String name;
   final int amount;
   final String price;
@@ -14,6 +15,7 @@ class Product {
 
   Product({
     required this.id,
+    required this.storeId,
     required this.name,
     required this.amount,
     required this.price,
@@ -26,6 +28,7 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json['id'],
+      storeId: json['storeId'],
       name: json['name'],
       amount: json['amount'],
       price: json['price'],

@@ -1,18 +1,19 @@
 import 'dart:io' show Platform;
 
-import 'package:e_commerce/models/category.dart';
-import 'package:e_commerce/providers/category_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:e_commerce/models/category.dart';
 import 'package:e_commerce/actions/get_categories.dart';
 import 'package:e_commerce/providers/active_store_provider.dart';
+import 'package:e_commerce/providers/category_provider.dart';
 
 import 'package:e_commerce/screens/category.dart';
 
 import 'package:e_commerce/widgets/main_drawer.dart';
+import 'package:e_commerce/screens/cart.dart';
 
 class StoreOverviewScreen extends ConsumerStatefulWidget {
   const StoreOverviewScreen({super.key});
@@ -38,19 +39,17 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
     });
   }
 
+  // void _startAddNewTransaction(BuildContext ctx) {
+  //   showModalBottomSheet(
+  //     context: ctx,
+  //     isScrollControlled: true,
+  //     builder: (bCtx) => const CartModal(),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     final categories = ref.watch(getCategories);
-
-    Widget activePage = const CategoryScreen();
-
-    // if (_selectedPageIndex == 1) {
-    //   final favoriteMeals = ref.watch(favoriteMealsProvider);
-    //   activePage = MealsScreen(
-    //     meals: favoriteMeals,
-    //   );
-    //   activePageTitle = 'Your Favorites';
-    // }
 
     return categories.when(
       data: (categories) {
@@ -76,13 +75,10 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
                       ),
                     ),
                     actions: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10.0),
-                        child: IconButton(
-                          onPressed: () => {},
-                          icon: Icon(
-                              Platform.isIOS ? CupertinoIcons.cart : Icons.shopping_cart_outlined),
-                        ),
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pushNamed(CartScreen.routeName),
+                        icon: Icon(
+                            Platform.isIOS ? CupertinoIcons.cart : Icons.shopping_cart_outlined),
                       )
                     ],
                     bottom: PreferredSize(
@@ -122,7 +118,7 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
                     ),
                   )
                 : null,
-            body: activePage,
+            body: const CategoryScreen(),
           ),
         );
       },

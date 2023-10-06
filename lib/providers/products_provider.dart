@@ -39,6 +39,10 @@ class ProductsNotifier extends StateNotifier<List<Product>> {
         categoryId: categoryId, sizeId: sizeId, colorId: colorId, isFeatured: isFeatured);
     return state;
   }
+
+  Product getProduct(String productId) {
+    return state.firstWhere((element) => element.id == productId);
+  }
 }
 
 final productsProvider =

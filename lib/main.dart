@@ -1,4 +1,5 @@
 import 'package:e_commerce/screens/store_overview.dart';
+import 'package:e_commerce/screens/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
       home: const HomeScreen(),
       routes: {
         StoreOverviewScreen.routeName: (ctx) => const StoreOverviewScreen(),
+        CartScreen.routeName: (ctx) => const CartScreen(),
       },
     );
   }

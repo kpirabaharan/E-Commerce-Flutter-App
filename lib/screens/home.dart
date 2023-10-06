@@ -38,14 +38,12 @@ class HomeScreen extends ConsumerWidget {
             crossAxisSpacing: 20,
             mainAxisSpacing: 20,
           ),
-          children: [
-            ...stores
-                .map((store) => StoreSelectorItem(
-                      store: store,
-                      onSelectStore: () => _selectStore(context, store, ref),
-                    ))
-                .toList()
-          ],
+          children: stores
+              .map((store) => StoreSelectorItem(
+                    store: store,
+                    onSelectStore: () => _selectStore(context, store, ref),
+                  ))
+              .toList(),
         ),
         error: (error, stackTrace) => Text(error.toString()),
         loading: () => Platform.isIOS
