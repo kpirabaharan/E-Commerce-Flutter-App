@@ -36,7 +36,7 @@ class CartTile extends ConsumerWidget {
       child: Card(
         margin: const EdgeInsets.all(10),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Card(
               color: Colors.grey[400],
@@ -52,35 +52,43 @@ class CartTile extends ConsumerWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    cartItem.name,
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
-                  ),
-                  Text(
-                    currencyFormatter(cartItem.price, quantity: cartItem.quantity),
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
-                  ),
-                ],
+            Expanded(
+              child: Container(
+                height: 120,
+                width: double.infinity,
+                padding: const EdgeInsets.all(5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          cartItem.name,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
+                        ),
+                        Text(
+                          currencyFormatter(cartItem.price, quantity: cartItem.quantity),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    Row(
+                      children: [
+                        const Spacer(),
+                        ItemCounter(cartItem: cartItem),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
-            const Spacer(),
-            Container(
-              height: 120,
-              padding: const EdgeInsets.all(5),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const Spacer(),
-                  ItemCounter(cartItem: cartItem),
-                ],
-              ),
-            )
           ],
         ),
       ),

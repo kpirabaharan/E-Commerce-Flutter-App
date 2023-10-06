@@ -11,7 +11,7 @@ class CartTotal extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeStore = ref.watch(activeStoreProvider);
     final cartTotalCost = ref.watch(cartProvider.notifier).getTotal(activeStore!.id);
-    final cartTotalItems = ref.watch(cartProvider.notifier).getItemCount(activeStore!.id);
+    final cartTotalItems = ref.watch(cartProvider.notifier).getItemCount(activeStore.id);
     final bottomPadding = MediaQuery.of(context).padding.bottom;
 
     return Card(
