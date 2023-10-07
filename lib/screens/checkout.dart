@@ -10,6 +10,7 @@ class Checkout extends StatefulWidget {
 class _CheckoutState extends State<Checkout> {
   final _formKey = GlobalKey<FormState>();
 
+  final _emailNode = FocusNode();
   final _phoneNode = FocusNode();
   final _addressNode = FocusNode();
   final _cityNode = FocusNode();
@@ -18,6 +19,7 @@ class _CheckoutState extends State<Checkout> {
   final _countryNode = FocusNode();
 
   final Map<String, dynamic> _contactBillingData = {
+    'name': '',
     'email': '',
     'phone': 0,
     'address': '',
@@ -48,12 +50,13 @@ class _CheckoutState extends State<Checkout> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final bottomInsets = MediaQuery.of(context).viewInsets.bottom;
+
     return Card(
         child: Container(
       padding: const EdgeInsets.all(10),
-      constraints: BoxConstraints.tight(
-        Size(double.infinity, height * 0.50),
-      ),
+      height: 500,
+      constraints: BoxConstraints(maxHeight: height - bottomInsets - 50),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -65,7 +68,28 @@ class _CheckoutState extends State<Checkout> {
               ),
               TextFormField(
                 textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.name,
+                onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_emailNode),
+                decoration: InputDecoration(
+                  icon: const Icon(Icons.person),
+                  labelText: 'Full Name',
+                  labelStyle: Theme.of(context).textTheme.labelMedium,
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Invalid Name';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _contactBillingData['name'] = value!;
+                },
+              ),
+              TextFormField(
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.emailAddress,
                 onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_phoneNode),
+                focusNode: _emailNode,
                 decoration: InputDecoration(
                   icon: const Icon(Icons.email),
                   labelText: 'Email',

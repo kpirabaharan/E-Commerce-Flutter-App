@@ -1,10 +1,11 @@
-import 'package:e_commerce/providers/cart_provider.dart';
-import 'package:e_commerce/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:e_commerce/models/cart_item.dart';
+import 'package:e_commerce/providers/cart_provider.dart';
+import 'package:e_commerce/utils/currency_formatter.dart';
+
 import 'package:e_commerce/widgets/item_counter.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CartTile extends ConsumerWidget {
   const CartTile(this.cartItem, {super.key});
@@ -80,7 +81,7 @@ class CartTile extends ConsumerWidget {
                     Row(
                       children: [
                         const Spacer(),
-                        ItemCounter(cartItem: cartItem),
+                        ItemCounter(cartItemId: cartItem.id),
                       ],
                     )
                   ],

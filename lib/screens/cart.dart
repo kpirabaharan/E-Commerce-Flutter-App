@@ -17,12 +17,6 @@ class CartScreen extends ConsumerWidget {
     final cartItems = ref.watch(cartProvider.notifier).getItems(ref.read(activeStoreProvider)!.id);
 
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => {
-                ref.read(cartProvider.notifier).checkout(ref.read(activeStoreProvider)!.id),
-                Stripe.instance.presentPaymentSheet()
-              }),
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(

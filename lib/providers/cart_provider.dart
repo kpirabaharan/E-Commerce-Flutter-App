@@ -87,6 +87,10 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
     return state.where((item) => item.storeId == storeId).toList();
   }
 
+  CartItem getItem(String productId) {
+    return state.firstWhere((item) => item.id == productId);
+  }
+
   double getTotal(String storeId) {
     return state.where((item) => item.storeId == storeId).fold<double>(
         0,
@@ -114,6 +118,7 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
         print(response.data);
         await Stripe.instance.initPaymentSheet(
             paymentSheetParameters: SetupPaymentSheetParameters(
+          billingDetails: BillingDetails(email: ''),
           paymentIntentClientSecret: response.data['client_secret'],
           merchantDisplayName: 'Poop',
           style: ThemeMode.dark,
