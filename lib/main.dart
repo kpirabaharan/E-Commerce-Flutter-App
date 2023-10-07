@@ -14,7 +14,11 @@ final theme = ThemeData(
     brightness: Brightness.dark,
     seedColor: const Color.fromARGB(255, 49, 9, 77),
   ),
-  textTheme: GoogleFonts.latoTextTheme(),
+  textTheme: GoogleFonts.latoTextTheme().apply(
+    bodyColor: Colors.white,
+    displayColor: Colors.white,
+    decorationColor: Colors.white,
+  ),
 );
 
 Future main() async {

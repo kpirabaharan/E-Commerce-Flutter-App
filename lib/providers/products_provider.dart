@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
@@ -18,9 +20,8 @@ class ProductsNotifier extends StateNotifier<List<Product>> {
         'colorId': colorId,
         'isFeatured': isFeatured
       };
-
-      Response response = await dio.get('${dotenv.env['API_URL']}$storeId/products',
-          queryParameters: queryParameters);
+      String url = Platform.isAndroid ? dotenv.env['ANDROID_API_URL']! : dotenv.env['IOS_API_URL']!;
+      Response response = await dio.get('$url$storeId/products', queryParameters: queryParameters);
 
       if (response.statusCode == 200) {
         final List data = response.data;

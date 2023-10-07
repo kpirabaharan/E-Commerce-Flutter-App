@@ -13,23 +13,18 @@ class ProductInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          product.name,
-          style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Colors.white),
-        ),
+        Text(product.name, style: Theme.of(context).textTheme.headlineLarge),
         Text(
           currencyFormatter(product.price),
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white70),
         ),
         Row(
           children: [
-            Text('Size: ${product.size.name}',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white)),
+            Text('Size: ${product.size.name}', style: Theme.of(context).textTheme.bodyLarge),
             const Padding(padding: EdgeInsets.only(left: 20)),
             Row(
               children: [
-                Text('Color: ',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white)),
+                Text('Color: ', style: Theme.of(context).textTheme.bodyLarge),
                 Container(
                   height: 15,
                   width: 15,

@@ -39,14 +39,6 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
     });
   }
 
-  // void _startAddNewTransaction(BuildContext ctx) {
-  //   showModalBottomSheet(
-  //     context: ctx,
-  //     isScrollControlled: true,
-  //     builder: (bCtx) => const CartModal(),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     final categories = ref.watch(getCategories);
@@ -91,10 +83,7 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
                               child: Text(
                                 'Featured',
                                 style: _selectedPageIndex == 0
-                                    ? Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(color: Colors.white)
+                                    ? Theme.of(context).textTheme.bodyLarge
                                     : null,
                               ),
                             ),
@@ -106,10 +95,7 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
                                       child: Text(
                                         element.name,
                                         style: _selectedPageIndex == index + 1
-                                            ? Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge!
-                                                .copyWith(color: Colors.white)
+                                            ? Theme.of(context).textTheme.bodyLarge
                                             : null,
                                       ))))
                               .toList()

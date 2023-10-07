@@ -5,8 +5,21 @@ import 'package:e_commerce/models/store.dart';
 import 'package:e_commerce/providers/cart_provider.dart';
 import 'package:e_commerce/providers/active_store_provider.dart';
 
+import 'package:e_commerce/screens/checkout.dart';
+
 class CartTotal extends ConsumerWidget {
   const CartTotal({Key? key}) : super(key: key);
+
+  void showCheckoutModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Checkout(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,13 +42,11 @@ class CartTotal extends ConsumerWidget {
                     children: [
                       Text(
                         'Total',
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                       Text(
                         '$cartTotalItems items',
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ],
                   ),
@@ -51,11 +62,11 @@ class CartTotal extends ConsumerWidget {
                       style: Theme.of(context)
                           .textTheme
                           .titleMedium!
-                          .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'Free Shipping',
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ],
                 ),
@@ -65,7 +76,7 @@ class CartTotal extends ConsumerWidget {
               width: double.infinity,
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
               child: FilledButton(
-                onPressed: () => ref.read(cartProvider.notifier).checkout(activeStore.id),
+                onPressed: () => showCheckoutModal(context),
                 child: const Text('Checkout'),
               ),
             ),

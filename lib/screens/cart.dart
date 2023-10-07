@@ -18,8 +18,11 @@ class CartScreen extends ConsumerWidget {
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton:
-          FloatingActionButton(onPressed: () => Stripe.instance.presentPaymentSheet()),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => {
+                ref.read(cartProvider.notifier).checkout(ref.read(activeStoreProvider)!.id),
+                Stripe.instance.presentPaymentSheet()
+              }),
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(
@@ -27,13 +30,13 @@ class CartScreen extends ConsumerWidget {
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text('Checkout'),
+        title: const Text('Cart'),
       ),
       body: cartItems.isEmpty
           ? Center(
               child: Text(
                 'Your Cart is Empty',
-                style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.headlineLarge,
               ),
             )
           : Column(

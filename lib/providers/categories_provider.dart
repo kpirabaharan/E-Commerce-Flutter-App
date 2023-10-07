@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
@@ -11,7 +13,8 @@ class CategoriesNotifier extends StateNotifier<List<Category>> {
 
   Future<void> fetchCategories(String storeId) async {
     try {
-      Response response = await dio.get('${dotenv.env['API_URL']}$storeId/categories');
+      String url = Platform.isAndroid ? dotenv.env['ANDROID_API_URL']! : dotenv.env['IOS_API_URL']!;
+      Response response = await dio.get('$url$storeId/categories');
       if (response.statusCode == 200) {
         final List data = response.data;
         state = data.map((e) => Category.fromJson(e)).toList();

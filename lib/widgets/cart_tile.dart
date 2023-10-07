@@ -66,15 +66,13 @@ class CartTile extends ConsumerWidget {
                         Text(
                           cartItem.name,
                           overflow: TextOverflow.ellipsis,
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Text(
                           currencyFormatter(cartItem.price, quantity: cartItem.quantity),
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(color: Colors.white),
+                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                color: Colors.white70,
+                              ),
                         ),
                       ],
                     ),

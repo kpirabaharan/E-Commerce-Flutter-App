@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,7 +13,8 @@ class StoresNotifier extends StateNotifier<List<Store>> {
 
   Future<void> fetchStores() async {
     try {
-      Response response = await dio.get('${dotenv.env['API_URL']}users/${dotenv.env['USER_ID']}');
+      String url = Platform.isAndroid ? dotenv.env['ANDROID_API_URL']! : dotenv.env['IOS_API_URL']!;
+      Response response = await dio.get('${url}users/${dotenv.env['USER_ID']}');
       if (response.statusCode == 200) {
         final List data = response.data;
         state = data.map((e) => Store.fromJson(e)).toList();

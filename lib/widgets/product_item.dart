@@ -67,7 +67,7 @@ class ProductItem extends ConsumerWidget {
             ),
             Text(
               product.name,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             Text(
               currencyFormatter(product.price),

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:dio/dio.dart';
@@ -113,16 +114,15 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
         print(response.data);
         await Stripe.instance.initPaymentSheet(
             paymentSheetParameters: SetupPaymentSheetParameters(
-          primaryButtonLabel: 'Pay',
           paymentIntentClientSecret: response.data['client_secret'],
           merchantDisplayName: 'Poop',
+          style: ThemeMode.dark,
         ));
         clearCart();
       } else {
         throw Exception('Error: ${response.statusCode}');
       }
     } catch (e) {
-      print(e);
       throw Exception(e);
     }
   }

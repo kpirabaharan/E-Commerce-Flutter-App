@@ -27,8 +27,7 @@ class StoreSelectorItem extends StatelessWidget {
               end: Alignment.bottomRight,
             )),
         child: Center(
-          child: Text(store.name,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white)),
+          child: Text(store.name, style: Theme.of(context).textTheme.titleLarge),
         ),
       ),
     );

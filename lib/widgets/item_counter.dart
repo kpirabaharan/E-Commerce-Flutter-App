@@ -35,7 +35,7 @@ class ItemCounter extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               cartItem.quantity.toString(),
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.white),
+              style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
           SizedBox(

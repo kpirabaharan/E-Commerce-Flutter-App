@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
@@ -11,7 +13,8 @@ class BillboardNotifier extends StateNotifier<Billboard?> {
 
   Future<void> fetchBillboard(String storeId, String billboardId) async {
     try {
-      Response response = await dio.get('${dotenv.env['API_URL']}$storeId/billboards/$billboardId');
+      String url = Platform.isAndroid ? dotenv.env['ANDROID_API_URL']! : dotenv.env['IOS_API_URL']!;
+      Response response = await dio.get('$url$storeId/billboards/$billboardId');
       if (response.statusCode == 200) {
         final data = response.data;
         state = Billboard.fromJson(data);
