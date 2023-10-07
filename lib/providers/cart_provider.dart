@@ -1,7 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dio/dio.dart';
 
 import 'package:e_commerce/models/cart_item.dart';
 import 'package:e_commerce/models/product.dart';
+
+final dio = Dio();
 
 class CartNotifier extends StateNotifier<List<CartItem>> {
   CartNotifier() : super([]);
@@ -78,6 +81,10 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
     state = [];
   }
 
+  List<CartItem> getItems(String storeId) {
+    return state.where((item) => item.storeId == storeId).toList();
+  }
+
   double getTotal(String storeId) {
     return state.where((item) => item.storeId == storeId).fold<double>(
         0,
@@ -89,6 +96,28 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
     return state
         .where((item) => item.storeId == storeId)
         .fold<double>(0, (previousValue, element) => previousValue + element.quantity);
+  }
+
+  Future<void> checkout(String storeId) async {
+    final body = {
+      'orderedProducts': state
+          .map((cartItem) => {'productId': cartItem.id, 'quantity': cartItem.quantity})
+          .toList(),
+      'storeUrl': 'poop'
+    };
+
+    try {
+      Response response = await dio.post('http://localhost:3000/api/$storeId/checkout', data: body);
+      if (response.statusCode == 200) {
+        clearCart();
+        print(response.data);
+      } else {
+        throw Exception('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print(e);
+      throw Exception(e);
+    }
   }
 }
 

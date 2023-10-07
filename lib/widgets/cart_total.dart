@@ -1,16 +1,17 @@
-import 'package:e_commerce/providers/active_store_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:e_commerce/models/store.dart';
 import 'package:e_commerce/providers/cart_provider.dart';
+import 'package:e_commerce/providers/active_store_provider.dart';
 
 class CartTotal extends ConsumerWidget {
   const CartTotal({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final activeStore = ref.watch(activeStoreProvider);
-    final cartTotalCost = ref.watch(cartProvider.notifier).getTotal(activeStore!.id);
+    final activeStore = ref.watch(activeStoreProvider) as Store;
+    final cartTotalCost = ref.watch(cartProvider.notifier).getTotal(activeStore.id);
     final cartTotalItems = ref.watch(cartProvider.notifier).getItemCount(activeStore.id);
     final bottomPadding = MediaQuery.of(context).padding.bottom;
 
@@ -22,7 +23,7 @@ class CartTotal extends ConsumerWidget {
             Row(children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -62,9 +63,9 @@ class CartTotal extends ConsumerWidget {
             ]),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
               child: FilledButton(
-                onPressed: () {},
+                onPressed: () => ref.read(cartProvider.notifier).checkout(activeStore.id),
                 child: const Text('Checkout'),
               ),
             ),
