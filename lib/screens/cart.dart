@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 
 import 'package:e_commerce/providers/active_store_provider.dart';
 import 'package:e_commerce/providers/cart_provider.dart';
@@ -37,7 +36,9 @@ class CartScreen extends ConsumerWidget {
               children: [
                 Expanded(
                   child: ListView(
-                    children: cartItems.map((cartItem) => CartTile(cartItem)).toList(),
+                    children: cartItems
+                        .map((cartItem) => CartTile(key: Key(cartItem.id), cartItemId: cartItem.id))
+                        .toList(),
                   ),
                 ),
                 const CartTotal(),

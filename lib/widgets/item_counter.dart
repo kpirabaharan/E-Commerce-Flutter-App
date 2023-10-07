@@ -1,27 +1,17 @@
-import 'package:e_commerce/providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/providers/cart_provider.dart';
 
-class ItemCounter extends ConsumerStatefulWidget {
-  const ItemCounter({Key? key, required this.cartItemId}) : super(key: key);
+class ItemCounter extends ConsumerWidget {
+  const ItemCounter({Key? key, required this.product, required this.quantity}) : super(key: key);
 
-  final String cartItemId;
+  final Product product;
+  final int quantity;
 
   @override
-  ConsumerState<ItemCounter> createState() => _ItemCounterState();
-}
-
-class _ItemCounterState extends ConsumerState<ItemCounter> {
-  @override
-  Widget build(BuildContext context) {
-    final product = ref.watch(productsProvider.notifier).getProduct(widget.cartItemId);
-    final cartItem =
-        ref.watch(cartProvider).firstWhere((element) => element.id == widget.cartItemId);
-
-    print(cartItem.quantity);
-
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       color: Colors.purple[900],
       child: Row(
@@ -40,12 +30,11 @@ class _ItemCounterState extends ConsumerState<ItemCounter> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-              cartItem.quantity.toString(),
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-          ),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                quantity.toString(),
+                style: Theme.of(context).textTheme.titleSmall,
+              )),
           SizedBox(
             height: 30,
             width: 30,

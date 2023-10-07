@@ -42,13 +42,12 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
   @override
   Widget build(BuildContext context) {
     final categories = ref.watch(getCategories);
+    final activeStore = ref.watch(activeStoreProvider);
 
     return categories.when(
       data: (categories) {
-        final activeStore = ref.watch(activeStoreProvider);
-        final categoryList = categories.map((category) => category).toList();
         return DefaultTabController(
-          length: categoryList.length + 1,
+          length: categories.length + 1,
           child: Scaffold(
             drawer: const MainDrawer(),
             appBar: activeStore != null
@@ -88,7 +87,7 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
                               ),
                             ),
                           ),
-                          ...categoryList
+                          ...categories
                               .mapIndexed((index, element) => Expanded(
                                   child: TextButton(
                                       onPressed: () => _selectPage(index + 1, element),
