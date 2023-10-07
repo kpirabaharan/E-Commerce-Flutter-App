@@ -1,10 +1,11 @@
-import 'package:e_commerce/widgets/cart_total.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 import 'package:e_commerce/providers/active_store_provider.dart';
 import 'package:e_commerce/providers/cart_provider.dart';
 
+import 'package:e_commerce/widgets/cart_total.dart';
 import 'package:e_commerce/widgets/cart_tile.dart';
 
 class CartScreen extends ConsumerWidget {
@@ -16,6 +17,9 @@ class CartScreen extends ConsumerWidget {
     final cartItems = ref.watch(cartProvider.notifier).getItems(ref.read(activeStoreProvider)!.id);
 
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButton:
+          FloatingActionButton(onPressed: () => Stripe.instance.presentPaymentSheet()),
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(

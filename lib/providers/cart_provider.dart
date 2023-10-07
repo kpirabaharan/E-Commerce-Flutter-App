@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:dio/dio.dart';
 
 import 'package:e_commerce/models/cart_item.dart';
@@ -109,8 +110,14 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
     try {
       Response response = await dio.post('http://localhost:3000/api/$storeId/checkout', data: body);
       if (response.statusCode == 200) {
-        clearCart();
         print(response.data);
+        await Stripe.instance.initPaymentSheet(
+            paymentSheetParameters: SetupPaymentSheetParameters(
+          primaryButtonLabel: 'Pay',
+          paymentIntentClientSecret: response.data['client_secret'],
+          merchantDisplayName: 'Poop',
+        ));
+        clearCart();
       } else {
         throw Exception('Error: ${response.statusCode}');
       }
