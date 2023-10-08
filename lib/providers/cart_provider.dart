@@ -91,6 +91,7 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
           .map((cartItem) => {'productId': cartItem.id, 'quantity': cartItem.quantity})
           .toList(),
       'storeUrl': 'mobile',
+      'isMobile': true,
       'billingData': billingData,
     };
 
@@ -103,11 +104,11 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
             billingDetails: BillingDetails(
               name: billingData['name'],
               email: billingData['email'],
-              phone: billingData['phone'].toString(),
+              phone: billingData['phone'],
               address: Address(
                 line1: billingData['address'],
                 line2: null,
-                city: billingData['address'],
+                city: billingData['city'],
                 state: billingData['state'],
                 postalCode: billingData['zip'],
                 country: billingData['country'],
@@ -118,9 +119,6 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
             style: ThemeMode.dark,
           ),
         );
-
-        // Stripe.instance.confirmPayment(paymentIntentClientSecret: paymentIntentClientSecret)
-        // clearCart();
       } else {
         throw Exception('Error: ${response.statusCode}');
       }

@@ -21,7 +21,7 @@ class CartTile extends ConsumerWidget {
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Colors.red,
+            color: Theme.of(context).colorScheme.errorContainer,
           ),
           child: const Padding(
             padding: EdgeInsets.only(right: 20),

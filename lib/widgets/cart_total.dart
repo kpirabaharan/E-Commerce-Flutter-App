@@ -16,7 +16,7 @@ class CartTotal extends ConsumerWidget {
       isScrollControlled: true,
       builder: (context) => Padding(
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: Checkout(),
+        child: const Checkout(),
       ),
     );
   }
