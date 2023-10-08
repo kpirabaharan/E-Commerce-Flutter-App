@@ -13,7 +13,9 @@ class CartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cartItems = ref.watch(cartProvider.notifier).getItems(ref.read(activeStoreProvider)!.id);
+    final cartItems = ref
+        .watch(cartProvider)
+        .where((cartItem) => cartItem.storeId == ref.read(activeStoreProvider)!.id);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,9 +38,8 @@ class CartScreen extends ConsumerWidget {
               children: [
                 Expanded(
                   child: ListView(
-                    children: cartItems
-                        .map((cartItem) => CartTile(key: Key(cartItem.id), cartItemId: cartItem.id))
-                        .toList(),
+                    children:
+                        cartItems.map((cartItem) => CartTile(cartItemId: cartItem.id)).toList(),
                   ),
                 ),
                 const CartTotal(),

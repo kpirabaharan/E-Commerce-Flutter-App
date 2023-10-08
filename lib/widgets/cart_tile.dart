@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:e_commerce/providers/products_provider.dart';
@@ -15,12 +14,11 @@ class CartTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cartItem =
-        ref.watch(cartProvider).firstWhereOrNull((element) => element.id == cartItemId);
+    final cartItem = ref.watch(cartProvider).firstWhere((element) => element.id == cartItemId);
     final product = ref.watch(productsProvider).firstWhere((element) => element.id == cartItemId);
 
     return Dismissible(
-      key: Key(cartItem!.id),
+      key: Key(cartItem.id),
       onDismissed: (direction) => ref.read(cartProvider.notifier).removeBatch(cartItem.id),
       background: Container(
           margin: const EdgeInsets.all(10),
