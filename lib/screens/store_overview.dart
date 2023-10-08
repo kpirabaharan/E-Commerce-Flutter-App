@@ -1,7 +1,9 @@
 import 'dart:io' show Platform;
 
+import 'package:e_commerce/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -43,6 +45,10 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
   Widget build(BuildContext context) {
     final categories = ref.watch(getCategories);
     final activeStore = ref.watch(activeStoreProvider);
+    final cartTotalItems = ref
+        .watch(cartProvider)
+        .where((item) => item.storeId == activeStore!.id)
+        .fold<int>(0, (previousValue, element) => previousValue + element.quantity);
 
     return categories.when(
       data: (categories) {
@@ -66,10 +72,19 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
                       ),
                     ),
                     actions: [
-                      IconButton(
-                        onPressed: () => Navigator.of(context).pushNamed(CartScreen.routeName),
-                        icon: Icon(
-                            Platform.isIOS ? CupertinoIcons.cart : Icons.shopping_cart_outlined),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: IconButton(
+                          onPressed: () => Navigator.of(context).pushNamed(CartScreen.routeName),
+                          icon: badges.Badge(
+                            position: badges.BadgePosition.topEnd(top: -12, end: -12),
+                            badgeContent: Text(cartTotalItems.toString(),
+                                style: Theme.of(context).textTheme.bodySmall),
+                            child: Icon(Platform.isIOS
+                                ? CupertinoIcons.cart
+                                : Icons.shopping_cart_outlined),
+                          ),
+                        ),
                       )
                     ],
                     bottom: PreferredSize(
