@@ -31,15 +31,15 @@ class CartScreen extends ConsumerWidget {
           ? Center(
               child: Text(
                 'Your Cart is Empty',
-                style: Theme.of(context).textTheme.headlineLarge,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.displayMedium,
               ),
             )
           : Column(
               children: [
                 Expanded(
                   child: ListView(
-                    children:
-                        cartItems.map((cartItem) => CartTile(cartItemId: cartItem.id)).toList(),
+                    children: cartItems.map((cartItem) => CartTile(cartItem: cartItem)).toList(),
                   ),
                 ),
                 const CartTotal(),

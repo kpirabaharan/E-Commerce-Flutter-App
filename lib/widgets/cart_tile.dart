@@ -1,22 +1,19 @@
+import 'package:e_commerce/models/cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:e_commerce/providers/products_provider.dart';
 import 'package:e_commerce/providers/cart_provider.dart';
 import 'package:e_commerce/utils/currency_formatter.dart';
 
 import 'package:e_commerce/widgets/item_counter.dart';
 
 class CartTile extends ConsumerWidget {
-  const CartTile({super.key, required this.cartItemId});
+  const CartTile({super.key, required this.cartItem});
 
-  final String cartItemId;
+  final CartItem cartItem;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cartItem = ref.watch(cartProvider).firstWhere((element) => element.id == cartItemId);
-    final product = ref.watch(productsProvider).firstWhere((element) => element.id == cartItemId);
-
     return Dismissible(
       key: Key(cartItem.id),
       onDismissed: (direction) => ref.read(cartProvider.notifier).removeBatch(cartItem.id),
@@ -84,7 +81,9 @@ class CartTile extends ConsumerWidget {
                     Row(
                       children: [
                         const Spacer(),
-                        ItemCounter(product: product, quantity: cartItem.quantity),
+                        ItemCounter(
+                          cartItem: cartItem,
+                        ),
                       ],
                     )
                   ],

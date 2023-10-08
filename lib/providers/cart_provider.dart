@@ -4,14 +4,13 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:dio/dio.dart';
 
 import 'package:e_commerce/models/cart_item.dart';
-import 'package:e_commerce/models/product.dart';
 
 final dio = Dio();
 
 class CartNotifier extends StateNotifier<List<CartItem>> {
   CartNotifier() : super([]);
 
-  void addItem(Product product) {
+  void addItem(dynamic product) {
     final existingCartItem = state.firstWhere(
       (element) => element.id == product.id,
       orElse: () => CartItem(
@@ -19,7 +18,7 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
           storeId: product.storeId,
           name: product.name,
           price: product.price,
-          image: product.images[0],
+          image: product is CartItem ? product.image : product.images[0],
           quantity: 0),
     );
 
@@ -31,7 +30,7 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
             storeId: product.storeId,
             name: product.name,
             price: product.price,
-            image: product.images[0],
+            image: product is CartItem ? product.image : product.images[0],
             quantity: 1)
       ];
     } else {
@@ -42,7 +41,7 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
               storeId: item.storeId,
               name: item.name,
               price: item.price,
-              image: item.image,
+              image: product is CartItem ? product.image : product.images[0],
               quantity: item.quantity + 1);
         } else {
           return item;
