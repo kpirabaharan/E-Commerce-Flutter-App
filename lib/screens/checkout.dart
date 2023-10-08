@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_stripe/flutter_stripe.dart' show Stripe;
 
-class Checkout extends StatefulWidget {
+import 'package:e_commerce/providers/active_store_provider.dart';
+import 'package:e_commerce/providers/cart_provider.dart';
+
+class Checkout extends ConsumerStatefulWidget {
   Checkout({Key? key}) : super(key: key);
 
   @override
-  State<Checkout> createState() => _CheckoutState();
+  ConsumerState<Checkout> createState() => _CheckoutState();
 }
 
-class _CheckoutState extends State<Checkout> {
+class _CheckoutState extends ConsumerState<Checkout> {
   final _formKey = GlobalKey<FormState>();
 
   final _emailNode = FocusNode();
@@ -15,17 +20,17 @@ class _CheckoutState extends State<Checkout> {
   final _addressNode = FocusNode();
   final _cityNode = FocusNode();
   final _provinceNode = FocusNode();
-  final _postalNode = FocusNode();
+  final _zipNode = FocusNode();
   final _countryNode = FocusNode();
 
   final Map<String, dynamic> _contactBillingData = {
     'name': '',
     'email': '',
-    'phone': 0,
+    'phone': '',
     'address': '',
     'city': '',
     'state': '',
-    'postal': '',
+    'zip': '',
     'country': '',
   };
 
@@ -35,15 +40,20 @@ class _CheckoutState extends State<Checkout> {
     _addressNode.dispose();
     _cityNode.dispose();
     _provinceNode.dispose();
-    _postalNode.dispose();
+    _zipNode.dispose();
     _countryNode.dispose();
     super.dispose();
   }
 
-  void proceedToPayment() {
+  void proceedToPayment() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       print(_contactBillingData);
+      await ref
+          .read(cartProvider.notifier)
+          .checkout(ref.read(activeStoreProvider)!.id, _contactBillingData);
+      // Navigator.of(context).pop();
+      await Stripe.instance.presentPaymentSheet();
     }
   }
 
@@ -177,7 +187,7 @@ class _CheckoutState extends State<Checkout> {
                     child: SizedBox(
                       child: TextFormField(
                         textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_postalNode),
+                        onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_zipNode),
                         focusNode: _provinceNode,
                         decoration: InputDecoration(
                           labelText: 'State / Province',
@@ -204,19 +214,19 @@ class _CheckoutState extends State<Checkout> {
                       child: TextFormField(
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_countryNode),
-                        focusNode: _postalNode,
+                        focusNode: _zipNode,
                         decoration: InputDecoration(
-                          labelText: 'Postal Code',
+                          labelText: 'Zip Code',
                           labelStyle: Theme.of(context).textTheme.labelMedium,
                         ),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Postal Code';
+                            return 'Zip Code';
                           }
                           return null;
                         },
                         onSaved: (value) {
-                          _contactBillingData['postal'] = value!;
+                          _contactBillingData['zip'] = value!;
                         },
                       ),
                     ),

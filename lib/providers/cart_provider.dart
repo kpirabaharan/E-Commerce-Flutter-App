@@ -1,6 +1,9 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 
 import 'package:e_commerce/models/cart_item.dart';
@@ -82,26 +85,42 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
     state = [];
   }
 
-  Future<void> checkout(String storeId) async {
+  Future<void> checkout(String storeId, Map<String, dynamic> billingData) async {
     final body = {
       'orderedProducts': state
           .map((cartItem) => {'productId': cartItem.id, 'quantity': cartItem.quantity})
           .toList(),
-      'storeUrl': 'poop'
+      'storeUrl': 'mobile',
+      'billingData': billingData,
     };
 
     try {
-      Response response = await dio.post('http://localhost:3000/api/$storeId/checkout', data: body);
+      String url = Platform.isAndroid ? dotenv.env['ANDROID_API_URL']! : dotenv.env['IOS_API_URL']!;
+      Response response = await dio.post('$url$storeId/checkout', data: body);
       if (response.statusCode == 200) {
-        print(response.data);
         await Stripe.instance.initPaymentSheet(
-            paymentSheetParameters: SetupPaymentSheetParameters(
-          billingDetails: BillingDetails(email: ''),
-          paymentIntentClientSecret: response.data['client_secret'],
-          merchantDisplayName: 'Poop',
-          style: ThemeMode.dark,
-        ));
-        clearCart();
+          paymentSheetParameters: SetupPaymentSheetParameters(
+            billingDetails: BillingDetails(
+              name: billingData['name'],
+              email: billingData['email'],
+              phone: billingData['phone'].toString(),
+              address: Address(
+                line1: billingData['address'],
+                line2: null,
+                city: billingData['address'],
+                state: billingData['state'],
+                postalCode: billingData['zip'],
+                country: billingData['country'],
+              ),
+            ),
+            paymentIntentClientSecret: response.data['client_secret'],
+            merchantDisplayName: 'mobile',
+            style: ThemeMode.dark,
+          ),
+        );
+
+        // Stripe.instance.confirmPayment(paymentIntentClientSecret: paymentIntentClientSecret)
+        // clearCart();
       } else {
         throw Exception('Error: ${response.statusCode}');
       }
