@@ -24,8 +24,18 @@ class CartTotal extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final activeStore = ref.watch(activeStoreProvider) as Store;
-    final cartTotalCost = ref.watch(cartProvider.notifier).getTotal(activeStore.id);
-    final cartTotalItems = ref.watch(cartProvider.notifier).getItemCount(activeStore.id);
+    final cartTotalCost = ref
+        .watch(cartProvider)
+        .where((item) => item.storeId == activeStore.id)
+        .fold<double>(
+            0,
+            (previousValue, element) =>
+                previousValue + (double.parse(element.price) * element.quantity));
+    final cartTotalItems = ref
+        .watch(cartProvider)
+        .where((item) => item.storeId == activeStore.id)
+        .fold<int>(0, (previousValue, element) => previousValue + element.quantity);
+
     final bottomPadding = MediaQuery.of(context).padding.bottom;
 
     return Card(

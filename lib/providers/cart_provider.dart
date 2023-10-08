@@ -82,27 +82,6 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
     state = [];
   }
 
-  List<CartItem> getItems(String storeId) {
-    return state.where((item) => item.storeId == storeId).toList();
-  }
-
-  CartItem getItem(String productId) {
-    return state.firstWhere((item) => item.id == productId);
-  }
-
-  double getTotal(String storeId) {
-    return state.where((item) => item.storeId == storeId).fold<double>(
-        0,
-        (previousValue, element) =>
-            previousValue + (double.parse(element.price) * element.quantity));
-  }
-
-  double getItemCount(String storeId) {
-    return state
-        .where((item) => item.storeId == storeId)
-        .fold<double>(0, (previousValue, element) => previousValue + element.quantity);
-  }
-
   Future<void> checkout(String storeId) async {
     final body = {
       'orderedProducts': state
