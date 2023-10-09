@@ -31,8 +31,8 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
   int _selectedPageIndex = 0;
 
   void _selectPage(int index, Category? category) {
+    _selectedPageIndex = index;
     setState(() {
-      _selectedPageIndex = index;
       if (category != null) {
         ref.watch(categoryProvider.notifier).setActiveCategory(category);
       } else {

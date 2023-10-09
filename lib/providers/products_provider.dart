@@ -18,7 +18,7 @@ class ProductsNotifier extends StateNotifier<List<Product>> {
         'categoryId': categoryId,
         'sizeId': sizeId,
         'colorId': colorId,
-        'isFeatured': isFeatured
+        'isFeatured': categoryId == null ? true : false,
       };
       String url = Platform.isAndroid ? dotenv.env['ANDROID_API_URL']! : dotenv.env['IOS_API_URL']!;
       Response response = await dio.get('$url$storeId/products', queryParameters: queryParameters);
@@ -35,14 +35,9 @@ class ProductsNotifier extends StateNotifier<List<Product>> {
   }
 
   Future<List<Product>> getProducts(String storeId,
-      {String? categoryId, String? sizeId, String? colorId, bool? isFeatured}) async {
-    await fetchProducts(storeId,
-        categoryId: categoryId, sizeId: sizeId, colorId: colorId, isFeatured: isFeatured);
+      {String? categoryId, String? sizeId, String? colorId}) async {
+    await fetchProducts(storeId, categoryId: categoryId, sizeId: sizeId, colorId: colorId);
     return state;
-  }
-
-  Product getProduct(String productId) {
-    return state.firstWhere((element) => element.id == productId);
   }
 }
 
