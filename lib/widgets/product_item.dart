@@ -41,7 +41,7 @@ class ProductItem extends ConsumerWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 // borderRadius: BorderRadius.circular(10),
-                color: Colors.grey[400],
+                color: Theme.of(context).colorScheme.surfaceVariant,
               ),
               child: Stack(alignment: Alignment.center, children: [
                 Hero(
@@ -56,7 +56,7 @@ class ProductItem extends ConsumerWidget {
                   right: 0,
                   child: IconButton(
                     focusColor: Colors.transparent,
-                    color: Colors.black38,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     icon: Icon(
                       Platform.isIOS ? CupertinoIcons.cart_badge_plus : Icons.add_shopping_cart,
                     ),
@@ -67,11 +67,13 @@ class ProductItem extends ConsumerWidget {
             ),
             Text(
               product.name,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.titleMedium!,
             ),
             Text(
               currencyFormatter(product.price),
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white70),
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 5.0),
@@ -81,7 +83,7 @@ class ProductItem extends ConsumerWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: product.color.value,
-                  border: Border.all(color: Colors.grey[400]!),
+                  border: Border.all(color: Theme.of(context).colorScheme.secondary),
                 ),
               ),
             )

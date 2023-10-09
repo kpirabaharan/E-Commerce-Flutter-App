@@ -72,9 +72,8 @@ class MainDrawer extends ConsumerWidget {
           ),
           stores.when(
             data: (stores) {
-              List<Store> storesList = stores.map((e) => e).toList();
               return Column(
-                children: storesList
+                children: stores
                     .map(
                       (store) => buildListTile(
                         store.name,

@@ -31,7 +31,7 @@ class _ProductGalleryState extends State<ProductGallery> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Container(
-      color: Colors.grey[300],
+      color: Theme.of(context).colorScheme.surfaceVariant,
       height: height * 0.5,
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -59,7 +59,9 @@ class _ProductGalleryState extends State<ProductGallery> {
                           width: 30,
                           decoration: BoxDecoration(
                             shape: BoxShape.rectangle,
-                            color: pageNumber == index ? Colors.black : Colors.grey[400],
+                            color: pageNumber == index
+                                ? Theme.of(context).colorScheme.onSecondary
+                                : Theme.of(context).colorScheme.secondary,
                           ),
                         ))
                     .toList(),

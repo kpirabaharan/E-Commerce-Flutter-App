@@ -35,12 +35,13 @@ class CartTile extends ConsumerWidget {
           )),
       direction: DismissDirection.endToStart,
       child: Card(
+        color: Theme.of(context).colorScheme.surface,
         margin: const EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Card(
-              color: Colors.grey[400],
+              color: Theme.of(context).colorScheme.surfaceVariant,
               margin: const EdgeInsets.all(10),
               child: Container(
                 height: 100,
@@ -71,9 +72,10 @@ class CartTile extends ConsumerWidget {
                         ),
                         Text(
                           currencyFormatter(cartItem.price, quantity: cartItem.quantity),
-                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                color: Colors.white70,
-                              ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(color: Theme.of(context).colorScheme.secondary),
                         ),
                       ],
                     ),

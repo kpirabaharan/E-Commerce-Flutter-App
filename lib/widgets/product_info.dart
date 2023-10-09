@@ -16,7 +16,9 @@ class ProductInfo extends StatelessWidget {
         Text(product.name, style: Theme.of(context).textTheme.headlineLarge),
         Text(
           currencyFormatter(product.price),
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white70),
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
         ),
         Row(
           children: [

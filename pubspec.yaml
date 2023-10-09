@@ -36,7 +36,6 @@ dependencies:
   google_fonts: ^6.1.0
   cupertino_icons: ^1.0.6
   ionicons: ^0.2.2
-  badges: ^3.1.2
   flutter_stripe: ^9.4.0
   flutter_riverpod: ^2.4.1
   flutter_dotenv: ^5.1.0

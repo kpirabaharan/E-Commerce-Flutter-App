@@ -24,6 +24,15 @@ class CategoryScreen extends ConsumerWidget {
           pinned: true,
           automaticallyImplyLeading: false,
           expandedHeight: 250.0,
+          actions: [
+            Builder(
+              builder: (context) => IconButton(
+                icon: const Icon(Icons.filter_alt_outlined),
+                onPressed: () => Scaffold.of(context).openEndDrawer(),
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              ),
+            ),
+          ],
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: true,
             title: Text(billboard.label),
