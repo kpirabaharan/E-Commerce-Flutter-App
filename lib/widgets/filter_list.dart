@@ -1,3 +1,4 @@
+import 'package:e_commerce/providers/active_fliters_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,12 +7,12 @@ class FilterList extends ConsumerStatefulWidget {
     Key? key,
     required this.filters,
     required this.onClick,
-    required this.activeFilter,
+    required this.filterKey,
   }) : super(key: key);
 
   final AsyncValue<List<dynamic>> filters;
-  final void Function(dynamic color) onClick;
-  final dynamic activeFilter;
+  final void Function(String key, dynamic color) onClick;
+  final String filterKey;
 
   @override
   ConsumerState<FilterList> createState() => _FilterListState();
@@ -20,7 +21,6 @@ class FilterList extends ConsumerStatefulWidget {
 class _FilterListState extends ConsumerState<FilterList> {
   @override
   Widget build(BuildContext context) {
-    print(widget.activeFilter?.name);
     return widget.filters.when(
       data: (filters) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -33,9 +33,9 @@ class _FilterListState extends ConsumerState<FilterList> {
                   (filter) => FilterChip(
                     label: Text(filter.name),
                     onSelected: (isSelected) => setState(() {
-                      widget.onClick(filter);
+                      widget.onClick(widget.filterKey, filter);
                     }),
-                    selected: widget.activeFilter?.id == filter.id,
+                    selected: ref.watch(activeFiltersProvider)[widget.filterKey]?.id == filter.id,
                   ),
                 )
                 .toList(),

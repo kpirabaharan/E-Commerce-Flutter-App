@@ -1,16 +1,22 @@
-import 'package:e_commerce/widgets/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:e_commerce/providers/active_fliters_provider.dart';
 import 'package:e_commerce/actions/get_colors.dart';
 import 'package:e_commerce/actions/get_sizes.dart';
-import 'package:e_commerce/providers/active_fliters_provider.dart';
 
-class FilterDrawer extends ConsumerWidget {
+import 'package:e_commerce/widgets/filter_list.dart';
+
+class FilterDrawer extends ConsumerStatefulWidget {
   const FilterDrawer({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FilterDrawer> createState() => _FilterDrawerState();
+}
+
+class _FilterDrawerState extends ConsumerState<FilterDrawer> {
+  @override
+  Widget build(BuildContext context) {
     final colors = ref.watch(getColors);
     final sizes = ref.watch(getSizes);
 
@@ -48,6 +54,16 @@ class FilterDrawer extends ConsumerWidget {
             ),
           ),
           Padding(
+            padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
+            child: Row(children: [
+              const Spacer(),
+              FilledButton.tonal(
+                onPressed: () => ref.read(activeFiltersProvider.notifier).clearActiveFilters(),
+                child: const Text('Clear Filters'),
+              ),
+            ]),
+          ),
+          Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: Text(
               'Colors',
@@ -55,9 +71,10 @@ class FilterDrawer extends ConsumerWidget {
             ),
           ),
           FilterList(
-              filters: colors,
-              onClick: ref.read(activeFiltersProvider.notifier).setActiveColor,
-              activeFilter: ref.watch(activeFiltersProvider)['color']),
+            filters: colors,
+            onClick: ref.read(activeFiltersProvider.notifier).setActiveFilter,
+            filterKey: 'color',
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: Text(
@@ -66,9 +83,10 @@ class FilterDrawer extends ConsumerWidget {
             ),
           ),
           FilterList(
-              filters: sizes,
-              onClick: ref.read(activeFiltersProvider.notifier).setActiveSize,
-              activeFilter: ref.watch(activeFiltersProvider)['size']),
+            filters: sizes,
+            onClick: ref.read(activeFiltersProvider.notifier).setActiveFilter,
+            filterKey: 'size',
+          ),
         ],
       ),
     );

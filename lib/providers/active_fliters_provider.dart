@@ -1,8 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:e_commerce/models/color.dart';
-import 'package:e_commerce/models/size.dart';
-
 class ActiveFiltersNotifier extends StateNotifier<Map<String, dynamic>> {
   ActiveFiltersNotifier()
       : super({
@@ -10,12 +7,8 @@ class ActiveFiltersNotifier extends StateNotifier<Map<String, dynamic>> {
           "size": null,
         });
 
-  void setActiveColor(dynamic color) {
-    state['color'] = color;
-  }
-
-  void setActiveSize(dynamic size) {
-    state['size'] = size;
+  void setActiveFilter(String key, dynamic filter) {
+    state[key] = filter;
   }
 
   void clearActiveFilters() {
