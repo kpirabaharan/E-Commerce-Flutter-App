@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:e_commerce/actions/get_products.dart';
 import 'package:e_commerce/actions/get_billboard.dart';
+import 'package:e_commerce/providers/products_provider.dart';
 
 import 'package:e_commerce/widgets/product_item.dart';
 
@@ -15,7 +15,7 @@ class CategoryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final billboard = ref.watch(getBillboard);
-    final products = ref.watch(getProducts);
+    final products = ref.watch(productsProvider);
     final bottomInset = MediaQuery.of(context).padding.bottom;
 
     return billboard.when(

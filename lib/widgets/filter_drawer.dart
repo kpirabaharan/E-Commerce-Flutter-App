@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:e_commerce/providers/active_fliters_provider.dart';
-import 'package:e_commerce/actions/get_colors.dart';
-import 'package:e_commerce/actions/get_sizes.dart';
+import 'package:e_commerce/providers/colors_provider.dart';
+import 'package:e_commerce/providers/sizes_provider.dart';
 
 import 'package:e_commerce/widgets/filter_list.dart';
 
@@ -17,8 +17,8 @@ class FilterDrawer extends ConsumerStatefulWidget {
 class _FilterDrawerState extends ConsumerState<FilterDrawer> {
   @override
   Widget build(BuildContext context) {
-    final colors = ref.watch(getColors);
-    final sizes = ref.watch(getSizes);
+    final colors = ref.watch(colorsProvider);
+    final sizes = ref.watch(sizesProvider);
 
     return Drawer(
       child: Column(

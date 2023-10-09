@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:e_commerce/providers/cart_provider.dart';
+import 'package:e_commerce/providers/categories_provider.dart';
 import 'package:e_commerce/widgets/filter_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,9 +9,9 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:e_commerce/models/category.dart';
-import 'package:e_commerce/actions/get_categories.dart';
+
 import 'package:e_commerce/providers/active_store_provider.dart';
-import 'package:e_commerce/providers/category_provider.dart';
+import 'package:e_commerce/providers/active_category_provider.dart';
 
 import 'package:e_commerce/screens/category.dart';
 
@@ -43,7 +44,7 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final categories = ref.watch(getCategories);
+    final categories = ref.watch(categoriesProvider);
     final activeStore = ref.watch(activeStoreProvider);
     final cartTotalItems = ref
         .watch(cartProvider)

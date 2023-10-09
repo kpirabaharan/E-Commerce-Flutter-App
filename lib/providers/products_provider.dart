@@ -1,45 +1,42 @@
+import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 
+import 'package:e_commerce/providers/active_store_provider.dart';
+import 'package:e_commerce/providers/active_category_provider.dart';
+
 import 'package:e_commerce/models/product.dart';
 
 final dio = Dio();
 
-class ProductsNotifier extends StateNotifier<List<Product>> {
-  ProductsNotifier() : super([]);
+final productsProvider =
+    AsyncNotifierProvider.autoDispose<ProductList, List<Product>>(ProductList.new);
 
-  Future<void> fetchProducts(String storeId,
-      {String? categoryId, String? sizeId, String? colorId, bool? isFeatured}) async {
-    try {
-      Map<String, dynamic> queryParameters = {
-        'categoryId': categoryId,
-        'sizeId': sizeId,
-        'colorId': colorId,
-        'isFeatured': categoryId == null ? true : false,
-      };
-      String url = Platform.isAndroid ? dotenv.env['ANDROID_API_URL']! : dotenv.env['IOS_API_URL']!;
-      Response response = await dio.get('$url$storeId/products', queryParameters: queryParameters);
+class ProductList extends AutoDisposeAsyncNotifier<List<Product>> {
+  @override
+  FutureOr<List<Product>> build() async {
+    final store = ref.watch(activeStoreProvider);
+    final category = ref.watch(categoryProvider);
+    final url = Platform.isAndroid ? dotenv.env['ANDROID_API_URL']! : dotenv.env['IOS_API_URL']!;
 
-      if (response.statusCode == 200) {
-        final List data = response.data;
-        state = data.map((e) => Product.fromJson(e)).toList();
-      } else {
-        throw Exception('Error: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception(e);
+    String? categoryId;
+
+    if (category != null) {
+      categoryId = category.id;
     }
-  }
 
-  Future<List<Product>> getProducts(String storeId,
-      {String? categoryId, String? sizeId, String? colorId}) async {
-    await fetchProducts(storeId, categoryId: categoryId, sizeId: sizeId, colorId: colorId);
-    return state;
+    Map<String, dynamic> queryParameters = {
+      'categoryId': categoryId,
+    };
+
+    print(queryParameters);
+
+    Response response =
+        await dio.get('$url${store!.id}/products', queryParameters: queryParameters);
+
+    return (response.data as List).map((e) => Product.fromJson(e as Map<String, dynamic>)).toList();
   }
 }
-
-final productsProvider =
-    StateNotifierProvider<ProductsNotifier, List<Product>>((ref) => ProductsNotifier());

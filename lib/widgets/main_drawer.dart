@@ -1,9 +1,10 @@
-import 'package:e_commerce/providers/category_provider.dart';
+import 'package:e_commerce/providers/active_category_provider.dart';
+import 'package:e_commerce/providers/stores_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:e_commerce/models/store.dart';
-import 'package:e_commerce/actions/get_stores.dart';
+
 import 'package:e_commerce/providers/active_store_provider.dart';
 
 import 'package:e_commerce/screens/store_overview.dart';
@@ -37,7 +38,7 @@ class MainDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final stores = ref.watch(getStores);
+    final stores = ref.watch(storesProvider);
 
     return Drawer(
       child: Column(

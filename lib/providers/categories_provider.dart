@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,32 +6,25 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 
 import 'package:e_commerce/models/category.dart';
+import 'package:e_commerce/providers/active_store_provider.dart';
 
 final dio = Dio();
 
-class CategoriesNotifier extends StateNotifier<List<Category>> {
-  CategoriesNotifier() : super([]);
+final categoriesProvider =
+    AsyncNotifierProvider.autoDispose<CategoryList, List<Category>>(CategoryList.new);
 
-  Future<void> fetchCategories(String storeId) async {
-    try {
-      String url = Platform.isAndroid ? dotenv.env['ANDROID_API_URL']! : dotenv.env['IOS_API_URL']!;
-      Response response = await dio.get('$url$storeId/categories');
-      if (response.statusCode == 200) {
-        final List data = response.data;
-        state = data.map((e) => Category.fromJson(e)).toList();
-      } else {
-        throw Exception('Error: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+class CategoryList extends AutoDisposeAsyncNotifier<List<Category>> {
+  @override
+  FutureOr<List<Category>> build() async {
+    final store = ref.watch(activeStoreProvider);
+    final url = Platform.isAndroid ? dotenv.env['ANDROID_API_URL']! : dotenv.env['IOS_API_URL']!;
 
-  Future<List<Category>> getCategories(String storeId) async {
-    await fetchCategories(storeId);
-    return state;
+    Response response = await dio.get(
+      '$url${store!.id}/categories',
+    );
+
+    return (response.data as List)
+        .map((e) => Category.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }
-
-final categoriesProvider =
-    StateNotifierProvider<CategoriesNotifier, List<Category>>((ref) => CategoriesNotifier());

@@ -9,7 +9,7 @@ class ActiveFiltersNotifier extends StateNotifier<Map<String, dynamic>> {
 
   void setActiveFilter(String key, dynamic filter) {
     state[key] = filter;
-    print(state);
+
   }
 
   void clearActiveFilters() {
