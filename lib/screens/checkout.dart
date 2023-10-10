@@ -78,6 +78,9 @@ class _CheckoutState extends ConsumerState<Checkout> {
         print('Payment Error: $e');
       }
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
