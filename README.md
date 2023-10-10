@@ -55,23 +55,23 @@ Explore the live admin dasboard website: [E-commerce Admin Dashboard Website](ht
 
 ### Overview Page
 
-![Overview Page](./screenshots/HomePage.png)
+<img src="./screenshots/HomePage.png" alt="OverviewPage" width="250"/>
 
 ### Product Detail Page
 
-![Product Detail Page](./screenshots/DetailPage.png)
+<img src="./screenshots/DetailPage.png" alt="DetailPage" width="250"/>
 
 ### Cart Page
 
-![Cart Page](./screenshots/CartPage.png)
+<img src="./screenshots/CartPage.png" alt="CartPage" width="250"/>
 
 ### Stripe Checkout
 
-![Stripe Checkout](./screenshots/Checkout.png)
+<img src="./screenshots/Checkout.png" alt="Checkout" width="250"/>
 
 ### Filters Sidebar
 
-![Filters Sidebar](./screenshots/Filters.png)
+<img src="./screenshots/Filters.png" alt="Filters" width="250"/>
 
 ## License
 
