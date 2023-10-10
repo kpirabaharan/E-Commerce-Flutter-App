@@ -26,14 +26,16 @@ class CartScreen extends ConsumerWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
-          IconButton(
-            color: Theme.of(context).colorScheme.onError,
-            iconSize: 30,
-            icon: const Icon(
-              Icons.delete,
-            ),
-            onPressed: () => ref.read(cartProvider.notifier).clearCart(),
-          ),
+          cartItems.isNotEmpty
+              ? IconButton(
+                  color: Theme.of(context).colorScheme.onError,
+                  iconSize: 30,
+                  icon: const Icon(
+                    Icons.delete,
+                  ),
+                  onPressed: () => ref.read(cartProvider.notifier).clearCart(),
+                )
+              : const SizedBox.shrink(),
         ],
         title: const Text('Cart'),
       ),

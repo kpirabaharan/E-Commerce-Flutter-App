@@ -33,7 +33,9 @@ class _FilterListState extends ConsumerState<FilterList> {
                   (filter) => FilterChip(
                     label: Text(filter.name),
                     onSelected: (isSelected) => setState(() {
-                      widget.onClick(widget.filterKey, filter);
+                      isSelected
+                          ? widget.onClick(widget.filterKey, filter)
+                          : widget.onClick(widget.filterKey, null);
                     }),
                     selected: ref.watch(activeFiltersProvider)[widget.filterKey]?.id == filter.id,
                   ),
