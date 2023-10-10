@@ -7,7 +7,7 @@ import 'package:e_commerce/providers/active_category_provider.dart';
 
 final getBillboard = FutureProvider<Billboard>((ref) async {
   final activeStore = ref.watch(activeStoreProvider);
-  final activeCategory = ref.watch(categoryProvider);
+  final activeCategory = ref.watch(activeCategoryProvider);
 
   final billboardId = activeCategory?.billboardId ?? activeStore!.homeBillboardId;
 

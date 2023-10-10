@@ -1,10 +1,10 @@
-import 'package:e_commerce/providers/active_category_provider.dart';
-import 'package:e_commerce/providers/stores_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:e_commerce/models/store.dart';
 
+import 'package:e_commerce/providers/stores_provider.dart';
+import 'package:e_commerce/providers/active_category_provider.dart';
 import 'package:e_commerce/providers/active_store_provider.dart';
 
 import 'package:e_commerce/screens/store_overview.dart';
@@ -32,7 +32,7 @@ class MainDrawer extends ConsumerWidget {
 
   void _selectStore(BuildContext context, Store store, WidgetRef ref) {
     ref.read(activeStoreProvider.notifier).setActiveStore(store);
-    ref.read(categoryProvider.notifier).clearActiveCategory();
+    ref.read(activeCategoryProvider.notifier).clearActiveCategory();
     Navigator.of(context).pushReplacementNamed(StoreOverviewScreen.routeName);
   }
 

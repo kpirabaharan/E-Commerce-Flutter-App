@@ -35,9 +35,9 @@ class _StoreOverviewScreen extends ConsumerState<StoreOverviewScreen> {
     _selectedPageIndex = index;
     setState(() {
       if (category != null) {
-        ref.watch(categoryProvider.notifier).setActiveCategory(category);
+        ref.watch(activeCategoryProvider.notifier).setActiveCategory(category);
       } else {
-        ref.watch(categoryProvider.notifier).clearActiveCategory();
+        ref.watch(activeCategoryProvider.notifier).clearActiveCategory();
       }
     });
   }

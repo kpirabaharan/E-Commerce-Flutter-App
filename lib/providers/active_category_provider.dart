@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:e_commerce/models/category.dart';
 
-final categoryProvider = NotifierProvider<CategoryNotifier, Category?>(CategoryNotifier.new);
+final activeCategoryProvider = NotifierProvider<CategoryNotifier, Category?>(CategoryNotifier.new);
 
 class CategoryNotifier extends Notifier<Category?> {
   @override

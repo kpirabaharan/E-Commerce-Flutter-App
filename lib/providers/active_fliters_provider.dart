@@ -1,21 +1,27 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ActiveFiltersNotifier extends StateNotifier<Map<String, dynamic>> {
-  ActiveFiltersNotifier()
-      : super({
-          "color": null,
-          "size": null,
-        });
+final activeFiltersProvider =
+    NotifierProvider<FiltersNotifier, Map<String, dynamic>>(FiltersNotifier.new);
 
-  void setActiveFilter(String key, dynamic filter) {
-    state[key] = filter;
+class FiltersNotifier extends Notifier<Map<String, dynamic>> {
+  @override
+  Map<String, dynamic> build() {
+    return {
+      'color': null,
+      'size': null,
+    };
+  }
 
+  void setActiveFilter(String filterKey, dynamic category) {
+    state[filterKey] = category;
+    ref.notifyListeners();
   }
 
   void clearActiveFilters() {
-    state = {'color': null, 'size': null};
+    state = {
+      'color': null,
+      'size': null,
+    };
+    ref.notifyListeners();
   }
 }
-
-final activeFiltersProvider = StateNotifierProvider<ActiveFiltersNotifier, Map<String, dynamic>>(
-    (ref) => ActiveFiltersNotifier());
