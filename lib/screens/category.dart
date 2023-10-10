@@ -58,10 +58,28 @@ class CategoryScreen extends ConsumerWidget {
           error: (error, stackTrace) => SliverToBoxAdapter(
             child: Center(child: Text('Error: $error')),
           ),
-          loading: () => SliverToBoxAdapter(
-            child: Platform.isIOS
-                ? const Center(child: CupertinoActivityIndicator())
-                : const Center(child: CircularProgressIndicator()),
+          loading: () => SliverPadding(
+            padding: EdgeInsets.fromLTRB(5, 5, 5, bottomInset),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 3 / 3,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (ctx, index) => Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceVariant,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                    child: CupertinoActivityIndicator(),
+                  ),
+                ),
+                childCount: 4,
+              ),
+            ),
           ),
         )
       ]),
