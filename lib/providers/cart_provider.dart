@@ -1,4 +1,4 @@
-import 'dart:io' show Platform;
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -96,7 +96,8 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
     };
 
     try {
-      String url = Platform.isAndroid ? dotenv.env['ANDROID_API_URL']! : dotenv.env['IOS_API_URL']!;
+      String url = dotenv.env['PROD_API_URL']!;
+      
       Response response = await dio.post('$url$storeId/checkout', data: body);
       if (response.statusCode == 200) {
         await Stripe.instance.initPaymentSheet(

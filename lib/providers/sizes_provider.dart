@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' show Platform;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -17,7 +16,7 @@ class SizeList extends AutoDisposeAsyncNotifier<List<Size>> {
   @override
   FutureOr<List<Size>> build() async {
     final store = ref.watch(activeStoreProvider);
-    final url = Platform.isAndroid ? dotenv.env['ANDROID_API_URL']! : dotenv.env['IOS_API_URL']!;
+    String url = dotenv.env['PROD_API_URL']!;
 
     Response response = await dio.get(
       '$url${store!.id}/sizes',

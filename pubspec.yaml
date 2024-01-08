@@ -40,7 +40,7 @@ dependencies:
   flutter_riverpod: ^2.4.1
   flutter_dotenv: ^5.1.0
   dio: ^5.3.3
-  collection: ^1.18.0
+  collection: ^1.17.2
   transparent_image: ^2.0.1
 
 dev_dependencies:
